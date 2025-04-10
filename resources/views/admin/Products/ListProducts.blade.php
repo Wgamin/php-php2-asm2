@@ -2,10 +2,12 @@
 
 @section('content')
 <h1 class="text-center"> {{$tile}}</h1>
+<div class="col-md-2">
+  <a href="{{route('product/create')}}" class="btn btn-success"> them san pham</a>
+</div>
 <table class="table table-striped">
   <thead>
     <tr>
-
       <th>STT</th>
       <th>Tên sản phẩm</th>
       <th>Ånh san phẩm</th>
@@ -28,8 +30,11 @@
       <td>{{$item ['active'] ? 'con ban' : 'dung ban'}}</td>
       <td>
         <a href="{{route('product/' . $item['id'] . '/show')}}" class="btn btn-info btn-sm">Xem</a>
-        <a href="" class="btn btn-warning btn-sm">Sua</a>
-        <a href="" class="btn btn-danger btn-sm">Xoa</a>
+        <a href="{{route('product/' . $item['id'] . '/edit')}}" class="btn btn-warning btn-sm">Sửa</a>
+        <form action="{{route('product/' . $item['id'] . '/delete')}}" method="post" style="display:inline-block;">
+          @csrf
+          <button type="submit" class="btn btn-danger btn-sm">Xoa</button>
+        </form>
       </td>
     </tr>
     @endforeach
