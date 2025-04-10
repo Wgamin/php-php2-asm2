@@ -42,42 +42,26 @@ class ProductController extends BaseController{
 
     public function store()
     {
-        // var_dump('test san pham thanh cong');die;
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $category_id = $_POST['category_id'];
-            $name = $_POST['name'];
-            $price = $_POST['price'];
-            $active = $_POST['active'];
+            $img_thumbnail = 'storage/uploads/products/default.jpg';
+            
             if (is_upload('img_thumbnail')) {
-                $img_thumbnail = $this -> uploadFile($_FILES['img_thumbnail'], 'products');
-            }else {
-                $img_thumbnail = null;    
+                $uploaded = $this->uploadFile($_FILES['img_thumbnail'], 'products');
+                if ($uploaded) {
+                    $img_thumbnail = $uploaded;
+                }
             }
+
             $this->productsModel->create([
-                'category_id' => $category_id,
-                'name' => $name,
-                'price' => $price,
-                'active' => $active,
+                'category_id' => $_POST['category_id'],
+                'name' => $_POST['name'],
+                'price' => $_POST['price'],
+                'active' => $_POST['active'],
                 'img_thumbnail' => $img_thumbnail,
             ]);
             redirect('product');
-        } else {
-            redirect404();
         }
-    }
-
-    public function edit($id)
-    {
-        $tile = 'trang sửa sản phẩm';
-        $product = $this->productsModel->find($id);
-        $categories = $this->categoryModel->All();
-
-        if (!$product) {
-            redirect404();
-        }else {
-            return view('admin.Products.EditProduct', compact('product', 'categories', 'tile'));
-        }
-        
+        redirect404();
     }
 
     public function update($id)
@@ -85,51 +69,52 @@ class ProductController extends BaseController{
         $product = $this->productsModel->find($id);
         if (!$product) {
             redirect404();
-        }else {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $category_id = $_POST['category_id'];
-                $name = $_POST['name'];
-                $price = $_POST['price'];
-                $active = $_POST['active'];
-                $img_thumbnail = $product['img_thumbnail']; // Giữ nguyên ảnh cũ
-                if (is_upload('img_thumbnail')) {
-                    // Xóa ảnh cũ nếu có
-                    if (!empty($products['img_thumbnail'])) {
-                        if (file_exists($products['img_thumbnail']) && file_exists($products['img_thumbnail'])) {
-                            unlink($products['img_thumbnail']);
-                        }
-                    }
-                    $img_thumbnail = $this -> uploadFile($_FILES['img_thumbnail'], 'products');
-                }
-                $this->productsModel->update($id,[
-                    'category_id' => $category_id,
-                    'name' => $name,
-                    'price' => $price,
-                    'active' => $active,
-                    'img_thumbnail' => $img_thumbnail,
-                ]);
-                redirect('product');
-            } else {
-                redirect404();
-            }
         }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $img_thumbnail = $product['img_thumbnail'];
+
+            if (is_upload('img_thumbnail')) {
+                // Delete old image if exists
+                if (!empty($product['img_thumbnail']) && $product['img_thumbnail'] != 'public/uploads/products/default.jpg') {
+                    $old_image = $product['img_thumbnail'];
+                    if (file_exists($old_image)) {
+                        unlink($old_image);
+                    }
+                }
+                
+                $uploaded = $this->uploadFile($_FILES['img_thumbnail'], 'products');
+                if ($uploaded) {
+                    $img_thumbnail = $uploaded;
+                }
+            }
+
+            $this->productsModel->update($id, [
+                'category_id' => $_POST['category_id'],
+                'name' => $_POST['name'],
+                'price' => $_POST['price'],
+                'active' => $_POST['active'],
+                'img_thumbnail' => $img_thumbnail,
+            ]);
+            redirect('product');
+        }
+        redirect404();
     }
 
     public function destroy($id)
     {
-        $products = $this->productsModel->find($id);
-        if (!$products) {
+        $product = $this->productsModel->find($id);
+        if (!$product) {
             redirect404();
-            
-        }else {
-            if (!empty($products['img_thumbnail'])) {
-                if (file_exists($products['img_thumbnail'])) {
-                    unlink($products['img_thumbnail']);
-                    
-                }
-            }
-            $this->productsModel->delete($id);
-            redirect('product');
         }
+
+        if (!empty($product['img_thumbnail']) && $product['img_thumbnail'] != 'public/uploads/products/default.jpg') {
+            if (file_exists($product['img_thumbnail'])) {
+                unlink($product['img_thumbnail']);
+            }
+        }
+
+        $this->productsModel->delete($id);
+        redirect('product');
     }
 }

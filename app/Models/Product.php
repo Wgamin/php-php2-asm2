@@ -6,7 +6,7 @@ use App\Models\BaseModel;
 
 class Product extends BaseModel
 {
-    protected $table = 'Products';
+    protected $table = 'products';
 
     public function getAllProduct()
     {
@@ -32,6 +32,14 @@ class Product extends BaseModel
         $stmt->bindParam(':id', $id);
         $stmt->execute();
 
+        return $stmt->fetch();
+    }
+
+    public function deleteImage($id) {
+        $sql = "SELECT img_thumbnail FROM $this->table WHERE id = :id";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
         return $stmt->fetch();
     }
 }
