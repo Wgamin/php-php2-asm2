@@ -64,6 +64,17 @@ class ProductController extends BaseController{
         redirect404();
     }
 
+    public function edit($id)
+    {
+        $product = $this->productsModel->find($id);
+        if (!$product) {
+            redirect404();
+        }
+        $tile = 'Cập nhật sản phẩm';
+        $categories = $this->categoryModel->all();
+        return view('admin.Products.EditProduct', compact('product', 'categories', 'tile'));
+    }
+
     public function update($id)
     {
         $product = $this->productsModel->find($id);
@@ -75,11 +86,9 @@ class ProductController extends BaseController{
             $img_thumbnail = $product['img_thumbnail'];
 
             if (is_upload('img_thumbnail')) {
-                // Delete old image if exists
-                if (!empty($product['img_thumbnail']) && $product['img_thumbnail'] != 'public/uploads/products/default.jpg') {
-                    $old_image = $product['img_thumbnail'];
-                    if (file_exists($old_image)) {
-                        unlink($old_image);
+                if (!empty($product['img_thumbnail']) && $product['img_thumbnail'] != 'storage/uploads/products/default.jpg') {
+                    if (file_exists($product['img_thumbnail'])) {
+                        unlink($product['img_thumbnail']);
                     }
                 }
                 
@@ -94,9 +103,9 @@ class ProductController extends BaseController{
                 'name' => $_POST['name'],
                 'price' => $_POST['price'],
                 'active' => $_POST['active'],
-                'img_thumbnail' => $img_thumbnail,
+                'img_thumbnail' => $img_thumbnail
             ]);
-            redirect('product');
+            redirect('product/');
         }
         redirect404();
     }

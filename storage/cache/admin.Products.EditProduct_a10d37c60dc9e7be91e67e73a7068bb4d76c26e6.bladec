@@ -1,47 +1,70 @@
 <?php $_shouldextend[1]=1; ?>
 
 <?php $this->startSection('content'); ?>
-<h1 class="text-center"> <?php echo \htmlentities($tile??'', ENT_QUOTES, 'UTF-8', false); ?></h1>
-<div class="col-md-2 mb-5">
- <a href="<?php echo \htmlentities(route('product/')??'', ENT_QUOTES, 'UTF-8', false); ?>" class="btn btn-warning"> quay lai</a>
-</div>
-<div class="col-md-12">
- <form action="<?php echo \htmlentities(route('product/' . $product['id'] . '/update')??'', ENT_QUOTES, 'UTF-8', false); ?>" method="post" enctype="multipart/form-data">
- <div class="md-3">
- <label for="name" class="form-label">Tên sản phẩm</label>
- <input type="text" class="form-control" id="name" value="<?php echo \htmlentities($product['name']??'', ENT_QUOTES, 'UTF-8', false); ?>" name="name" placeholder="Nhập tên sản phẩm">
+<div class="container py-4">
+ <div class="row">
+ <div class="col-md-12 mb-4">
+ <h1 class="text-center"><?php echo \htmlentities($tile??'', ENT_QUOTES, 'UTF-8', false); ?></h1>
+ <a href="<?php echo \htmlentities(route('product/')??'', ENT_QUOTES, 'UTF-8', false); ?>" class="btn btn-secondary">
+ <i class="fas fa-arrow-left"></i> Quay lại
+ </a>
  </div>
- <div class="md-3">
- <label for="category_id" class="form-label">Danh muc</label>
- <select class="form-select" id="category_id" name="category_id" aria-label="Default select example">
- <option selected>Chọn danh mục</option>
+ </div>
+
+ <div class="card">
+ <div class="card-body">
+ <form action="<?php echo \htmlentities(route('product/' . $product['id'] . '/update')??'', ENT_QUOTES, 'UTF-8', false); ?>" method="post" enctype="multipart/form-data">
+ <div class="row mb-4">
+ <div class="col-md-3">
+ <img src="<?php echo \htmlentities(file_url($product['img_thumbnail'])??'', ENT_QUOTES, 'UTF-8', false); ?>" class="img-thumbnail" alt="Ảnh sản phẩm">
+ </div>
+ <div class="col-md-9">
+ <div class="mb-3">
+ <label for="img_thumbnail" class="form-label">Ảnh sản phẩm</label>
+ <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail" accept="image/*">
+ </div>
+ </div>
+ </div>
+
+ <div class="mb-3">
+ <label for="name" class="form-label">Tên sản phẩm</label>
+ <input type="text" class="form-control" id="name" value="<?php echo \htmlentities($product['name']??'', ENT_QUOTES, 'UTF-8', false); ?>" name="name" required>
+ </div>
+
+ <div class="mb-3">
+ <label for="category_id" class="form-label">Danh mục</label>
+ <select class="form-select" id="category_id" name="category_id" required>
  <?php $__currentLoopData = $categories; $this->addLoop($__currentLoopData);$this->getFirstLoop();
  foreach($__currentLoopData as $item): $loop = $this->incrementLoopIndices();  ?>
- <option value="<?php echo \htmlentities($item['id']??'', ENT_QUOTES, 'UTF-8', false); ?>"  <?php echo \htmlentities($product['category_id'] == $item['id'] ? 'selected' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>>
+ <option value="<?php echo \htmlentities($item['id']??'', ENT_QUOTES, 'UTF-8', false); ?>" <?php echo \htmlentities($product['category_id'] == $item['id'] ? 'selected' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>>
  <?php echo \htmlentities($item['name']??'', ENT_QUOTES, 'UTF-8', false); ?>
 
  </option>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </select>
  </div>
- <div class="md-3">
- <label for="price" class="form-label">gia tien</label>
- <input type="number" step="100" class="form-control" value="<?php echo \htmlentities($product['price']??'', ENT_QUOTES, 'UTF-8', false); ?>" id="price" name="price" placeholder="Nhập tên sản phẩm">
+
+ <div class="mb-3">
+ <label for="price" class="form-label">Giá tiền</label>
+ <input type="number" step="1000" class="form-control" value="<?php echo \htmlentities($product['price']??'', ENT_QUOTES, 'UTF-8', false); ?>" id="price" name="price" required>
  </div>
- <div class="md-3">
- <label for="img_thumbnail" class="form-label">anh san pham</label>
- <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
- </div>
- <div class="md-3">
- <label for="active" class="form-label">trang thai</label>
- <select class="form-select" id="active" name="active" aria-label="Default select example">
- <option selected>Chọn trang thai</option>
- <option value="1" <?php echo \htmlentities($product['active'] == 1 ? 'selected' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>>con ban</option>
- <option value="0" <?php echo \htmlentities($product['active'] == 0 ? 'selected' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>>dung ban</option>
+
+ <div class="mb-3">
+ <label for="active" class="form-label">Trạng thái</label>
+ <select class="form-select" id="active" name="active" required>
+ <option value="1" <?php echo \htmlentities($product['active'] == 1 ? 'selected' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>>Còn bán</option>
+ <option value="0" <?php echo \htmlentities($product['active'] == 0 ? 'selected' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>>Dừng bán</option>
  </select>
  </div>
- <button class="btn btn-success">cap nhat san pham</button>
+
+ <div class="text-end">
+ <button type="submit" class="btn btn-primary">
+ <i class="fas fa-save"></i> Cập nhật sản phẩm
+ </button>
+ </div>
  </form>
+ </div>
+ </div>
 </div>
 <?php $this->stopSection(); ?>
 <?php if (isset($_shouldextend[1])) { echo $this->runChild('layouts.AdminLayout'); } ?>
