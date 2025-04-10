@@ -1,0 +1,55 @@
+SETUP AUTOLOAD 
+1. Chạy lệnh composer init
+2. Package name: php2/php2_base 
+3. Author: nhập n 
+4. Package type: library
+5. License: bỏ qua (nếu báo lỗi đỏ thì nhập MIT)
+6. Add PSR-4 autoload mapping? app/
+
+7. Trong file composer
+"autoload": {
+    "psr-4": {
+        "App\\": "app/"
+    },
+    "files": [
+        "common/helpers.php"
+    ]
+},
+
+8. chạy lệnh composer dump-autoload
+
+
+
+-------------------------------------------------------------------------------
+BRAMUS - ROUTER
+
+// Dùng .htaccess có cơ chế mod_rewirite để thay thế
+http://localhost/php2_base/index?act=san-pham
+bằng 
+http://localhost/php2_base/san-pham
+* Nhằm mục đích làm thân thiện đường dẫn URL
+
+1. Chạy lệnh: composer require bramus/router
+2. Chỉnh sửa file index.php
+    session_start();
+    // Đây là file chạy chính (Là nơi chúng require các file)
+    require_once "./env.php";    // Chứa các biến môi trường
+
+    require_once "./vendor/autoload.php";
+
+    require_once "routes/router.php";
+3. Thực hiện viết file routes/router.php
+
+
+----------------------------------------------------------------------------------
+BLADE - BLADEONE
+
+composer require eftec/bladeone
+
+Tạo folder public (chứa các thư viện sẽ dùng)
+Tạo folder storage/cache (chứa cache của blade)
+
+1. Tạo folder admin + client + layouts trong folder views
+2. Tạo file AdminLayout.blade.php trong folder layouts
+3. Tạo  folder blocks trong folder layouts (chứa các file thành phần của layout)
+4. Tạo file ListProduct.blade.php trong folder admin/product 
