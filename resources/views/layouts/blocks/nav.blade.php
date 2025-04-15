@@ -61,8 +61,8 @@
           </a>
         </li>
         <li class="menu-item">
-          <a href="app-logistics-dashboard.html" class="menu-link">
-            <div data-i18n="Logistics">Logistics</div>
+        <a href="{{route('services')}}" class="menu-link">
+            <div>Danh sách danh mục</div>
           </a>
         </li>
         <li class="menu-item">

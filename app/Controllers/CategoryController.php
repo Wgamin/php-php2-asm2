@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\Category;
@@ -12,10 +13,7 @@ class CategoryController
         $this->modelCategory = new Category();
     }
 
-    public function index()
-    {
-     
-    }
+    public function index() {}
 
     public function show()
     {

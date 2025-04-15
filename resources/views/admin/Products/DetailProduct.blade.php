@@ -10,7 +10,7 @@
             </a>
         </div>
     </div>
-    
+        
     <div class="card">
         <div class="row g-0">
             <div class="col-md-4">
@@ -22,7 +22,7 @@
                     <div class="card-text">
                         <div class="mb-3">
                             <strong>Danh mục:</strong> 
-                            <span class="badge bg-info">{{$products['category_name']}}</span>
+                            <span class="badge bg-info">{{$item['name']}}</span>
                         </div>
                         <div class="mb-3">
                             <strong>Giá tiền:</strong> 

@@ -14,6 +14,7 @@
             <th>Email</th>
             <th>Số điện thoại</th>
             <th>Vai trò</th>
+            <th>dia chia</th>
             <th>Ngày tạo</th>
             <th>Thao tác</th>
         </tr>
@@ -29,6 +30,7 @@
             <td>{{$item['email']}}</td>
             <td>{{$item['phone']}}</td>
             <td>{{$item['role_name']}}</td>
+            <td>{{$item['address']}}</td>
             <td>{{date('d/m/Y', strtotime($item['created_at']))}}</td>
             <td>
                 <a href="{{route('user/' . $item['id'] . '/show')}}" class="btn btn-info btn-sm">Xem</a>

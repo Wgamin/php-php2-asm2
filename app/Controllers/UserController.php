@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\User;
 use App\Models\Role;
+
 
 class UserController extends BaseController
 {
@@ -54,7 +56,7 @@ class UserController extends BaseController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $img_avatar = 'storage/uploads/users/default-avatar.jpg';
-            
+
             if (is_upload('img_avatar')) {
                 $uploaded = $this->uploadFile($_FILES['img_avatar'], 'users');
                 if ($uploaded) {
@@ -73,7 +75,7 @@ class UserController extends BaseController
             ];
 
             if ($this->modelUser->create($data)) {
-                redirect('user/');
+                redirect('admin/user/');
             }
         }
         redirect404();
@@ -95,7 +97,7 @@ class UserController extends BaseController
                         unlink($user['img_avatar']);
                     }
                 }
-                
+
                 $uploaded = $this->uploadFile($_FILES['img_avatar'], 'users');
                 if ($uploaded) {
                     $img_avatar = $uploaded;
@@ -113,7 +115,7 @@ class UserController extends BaseController
             ];
 
             if ($this->modelUser->update($id, $data)) {
-                redirect('user/');
+                redirect('admin/user/');
             }
         }
         redirect404();
@@ -133,7 +135,7 @@ class UserController extends BaseController
         }
 
         if ($this->modelUser->delete($id)) {
-            redirect('user/');
+            redirect('admin/user/');
         }
         redirect404();
     }

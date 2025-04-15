@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <h1 class="text-center">{{$title}}</h1>
-
+    
     @if(isset($_SESSION['success']))
     <div class="alert alert-success">
         {{$_SESSION['success']}}
@@ -11,17 +11,10 @@
     </div>
     @endif
 
-    @if(isset($_SESSION['errors']))
-    <div class="alert alert-danger">
-        {{$_SESSION['errors']}}
-        @php unset($_SESSION['errors']); @endphp
-    </div>
-    @endif
-
     <div class="row mb-3">
-        <div class="col-12">
-            <a href="{{route('product/create')}}" class="btn btn-primary">
-                <i class="bx bx-plus"></i> Thêm sản phẩm
+        <div class="col-md-12">
+            <a href="{{route('/services/create')}}" class="btn btn-success">
+                <i class="bx bx-plus"></i> Thêm dịch vụ
             </a>
         </div>
     </div>
@@ -33,39 +26,34 @@
                     <thead>
                         <tr>
                             <th>STT</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Ảnh</th>
+                            <th>Tên dịch vụ</th>
                             <th>Danh mục</th>
-                            <th>Giá</th>
-                            <th>Trạng thái</th>
+                            <th>Ảnh</th>
+                            <th>Mô tả</th>
+                            <th>Ngày tạo</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($products as $key=>$item)
+                        @foreach ($services as $key=>$item)
                         <tr>
                             <td>{{$key+1}}</td>
                             <td>{{$item['name']}}</td>
-                            <td>
-                                <img src="{{file_url($item['img_thumbnail'])}}" class="rounded" width="50" alt="{{$item['name']}}">
-                            </td>
                             <td>{{$item['category_name']}}</td>
-                            <td>{{number_format($item['price'], 0, ',', '.')}} đ</td>
                             <td>
-                                <span class="badge bg-{{$item['active'] ? 'success' : 'danger'}}">
-                                    {{$item['active'] ? 'Còn bán' : 'Dừng bán'}}
-                                </span>
+                                <img src="{{file_url($item['img_thumbnail'])}}" width="50" class="rounded" alt="{{$item['name']}}">
                             </td>
+                            <td>{{$item['overview']}}</td>
+                            <td>{{date('d/m/Y', strtotime($item['created_at']))}}</td>
                             <td>
-                                <a href="{{route('product/' . $item['id'] . '/show')}}" class="btn btn-info btn-sm">
+                                <a href="{{route('services/' . $item['id'] . '/show')}}" class="btn btn-info btn-sm">
                                     <i class="bx bx-show"></i>
                                 </a>
-                                <a href="{{route('product/' . $item['id'] . '/edit')}}" class="btn btn-warning btn-sm">
+                                <a href="{{route('services/' . $item['id'] . '/edit')}}" class="btn btn-warning btn-sm">
                                     <i class="bx bx-edit"></i>
                                 </a>
-                                <form action="{{route('product/' . $item['id'] . '/delete')}}" method="post" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?');">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm">
+                                <form action="{{route('services/' . $item['id'] . '/delete')}}" method="post" style="display:inline-block;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa?')">
                                         <i class="bx bx-trash"></i>
                                     </button>
                                 </form>
