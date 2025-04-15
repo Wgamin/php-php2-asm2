@@ -32,13 +32,13 @@ class ServicesController extends BaseController
 
     public function edit($id)
     {
-        // $user = $this->modelUser->find($id);
-        // if (!$user) {
-        //     redirect404();
-        // }
-        // $title = 'Sửa thông tin người dùng';
-        // $roles = $this->modelRole->all();
-        // return view('admin.user.EditUser', compact('user', 'title', 'roles'));
+        $service = $this->modelServices->find($id);
+        if (!$service) {
+            redirect404();
+        }
+        $title = 'Sửa thông tin dịch vụ';
+        $categories = $this->modelCategory->all();
+        return view('admin.Services.EditServices', compact('service', 'title', 'categories'));
     }
 
     public function show($id)
